@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.platformer.controller.GameController">
+    <top>
+        <VBox alignment="CENTER">
+            <Label fx:id="title" text = "Punctuated!"
+                   style="-fx-font-size: 36px;"
+            />
+        </VBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <Button text="Start" prefWidth="200" prefHeight="50" onAction="#onStartButtonClick"/>
+            <Button text="Options" prefWidth="200" prefHeight="50" onAction="#onOptionsButtonClick"/>
+            <Button text="Controls" prefWidth="200" prefHeight="50" onAction="#onControlsButtonClick"/>
+        </VBox>
+    </center>
+
+</BorderPane>
+
