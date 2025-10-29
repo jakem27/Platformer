@@ -8,12 +8,18 @@ public class Platform extends GameObject {
     private Line platform;
 
     public Platform(double x, double y, double width) {
-        super(new Line(x, y, width, 5), x, y, width, 5);
+        super(new Line(0, 500, 350, 500), x, y, width, 5);
         this.platform = (Line) view;
-        platform.setFill(Color.LIGHTBLUE);
+        platform.setStroke(Color.LIGHTBLUE);
+        platform.setStrokeWidth(2);
+    }
+
+    @Override
+    protected void updateView() {
+        // unnecessary
     }
 
     public void update(double elapsedTime) {
-        // platforms don't move
+        // platforms don't move (yet)
     }
 }

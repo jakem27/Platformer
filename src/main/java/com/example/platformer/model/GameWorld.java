@@ -21,7 +21,7 @@ public class GameWorld {
 
     private AnimationTimer gameLoop;
 
-    public void GameWorld(Group root) {
+    public GameWorld(Group root) {
         this.root = root;
 
         //inputHandler = ih;
@@ -34,7 +34,8 @@ public class GameWorld {
     }
 
     private void init() {
-        player = new Player(175, 510);
+
+        player = new Player(165, 480);
         Platform platform = new Platform(0, 500, 350);
 
         objects.add(player);
@@ -57,21 +58,36 @@ public class GameWorld {
                 previousTime = currentTime;
             }
 
+            @Override
             public void start() {
                 previousTime = System.nanoTime();
                 super.start();
             }
 
+            @Override
             public void stop() {
                 previousTime = -1;
                 super.stop();
             }
         };
+
+        gameLoop.start();
     }
 
     private void update(double elapsedTime) {
         for(GameObject obj : objects) {
-            obj.update(elapsedTime);
+            if(obj == player) {
+                update(elapsedTime);
+            } else if(obj instanceof Platform) {
+                // detect platform collision
+                if(obj.getBounds().intersects(player.getBounds())) {
+                    if(player.getVelocityY() > 0) {
+
+                    }
+                }
+            } else if(obj instanceof Obstacle) {
+                // detect obstacle collision
+            }
         }
     }
 

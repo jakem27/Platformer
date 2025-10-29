@@ -15,6 +15,12 @@ public class Obstacle extends GameObject {
         obstacle.setFill(Color.RED);
     }
 
+    @Override
+    protected void updateView() {
+        view.setLayoutX(x);
+        view.setLayoutY(y);
+    }
+
     public void update(double elapsedTime) {
         //to be implemented
     }

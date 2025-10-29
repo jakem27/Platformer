@@ -1,5 +1,7 @@
 package com.example.platformer.model;
 
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
 
 public abstract class GameObject {
@@ -18,20 +20,21 @@ public abstract class GameObject {
         updateView();
     }
 
-    public abstract void update(double deltaTime);
-
     public Node getNode() {
         return view;
     }
 
-    public void move(double dx, double dy) {
-        this.x += dx;
-        this.y += dy;
-        updateView();
-    }
+    public Bounds getBounds() { return new BoundingBox(x, y, width, height); }
 
-    protected void updateView() {
-        view.setLayoutX(x);
-        view.setLayoutY(y);
-    }
+    public void setX(double x) { this.x = x; }
+
+    public double getX() { return x; }
+
+    public void setY(double y) { this.y = y; }
+
+    public double gety() { return y; }
+
+    public abstract void update(double deltaTime);
+
+    protected abstract void updateView();
 }

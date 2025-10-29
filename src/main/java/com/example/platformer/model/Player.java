@@ -9,6 +9,8 @@ public class Player extends GameObject{
     private Text player;
     private double velocityY = 0;
 
+    private boolean onGround = false;
+
     public Player(double x, double y) {
         super(new Text("a"), x, y, 0, 0);
         this.player = (Text) view;
@@ -16,8 +18,27 @@ public class Player extends GameObject{
         player.setFill(Color.BLACK);
     }
 
-    public void update(double elapsedTime) {
-        //to be implemented
+    @Override
+    protected void updateView() {
+        view.setLayoutX(x);
+        view.setLayoutY(y);
     }
 
+    public void update(double elapsedTime) {
+        // x = x + velocityX * elapsedTime;
+        if(!onGround) {
+            velocityY += 300 * elapsedTime;
+            y += velocityY * elapsedTime;
+        }
+
+        updateView();
+    }
+
+    public double getVelocityY() {
+        return velocityY;
+    }
+
+    public void setVelocityY(double velocityY) {
+        this.velocityY = velocityY;
+    }
 }
