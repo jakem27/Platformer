@@ -5,13 +5,14 @@ import com.example.platformer.util.PhysicsEngine;
 import com.example.platformer.util.SpriteLoader;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 
 import java.util.*;
 
 public class GameWorld {
     private Group root;
 
-    //private InputHandler inputHandler;
+    private InputHandler inputHandler;
     //private PhysicsEngine physicsEngine;
     //private SpriteLoader spriteLoader;
 
@@ -21,13 +22,13 @@ public class GameWorld {
 
     private AnimationTimer gameLoop;
 
-    public GameWorld(Group root) {
+    public GameWorld(Group root, Scene scene) {
         this.root = root;
 
-        //inputHandler = ih;
-        //physicsEngine = pe;
-        //spriteLoader = sl;
         objects = new ArrayList<>();
+
+        inputHandler = new InputHandler();
+        inputHandler.attachToScene(scene);
 
         init();
         startLoop();
@@ -75,6 +76,18 @@ public class GameWorld {
     }
 
     private void update(double elapsedTime) {
+        if(inputHandler.isRightPressed()) {
+            player.moveRight();
+        } else if(inputHandler.isLeftPressed()) {
+            player.moveLeft();
+        } else {
+            player.stop();
+        }
+
+        if(inputHandler.isJumpPressed()) {
+            player.jump();
+        }
+
         for(GameObject obj : objects) {
             if(obj == player) {
                 player.update(elapsedTime);
@@ -86,10 +99,11 @@ public class GameWorld {
                     }
                 }
             } else if(obj instanceof Obstacle) {
-                // detect obstacle collision
+                // move obstacle and detect collision with player
             }
         }
     }
+
 
 
 

@@ -22,11 +22,11 @@ public class GameController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 
         Group root = new Group();
-        gameWorld = new GameWorld(root);
+        scene = new Scene(root, 350, 600);
 
-        Scene gameScene = new Scene(root, 350, 600);
-        scene = gameScene;
-        stage.setScene(gameScene);
+        gameWorld = new GameWorld(root, scene);
+        
+        stage.setScene(scene);
         stage.show();
     }
 
