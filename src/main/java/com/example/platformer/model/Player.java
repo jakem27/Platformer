@@ -34,6 +34,12 @@ public class Player extends GameObject{
         updateView();
     }
 
+    public void setOnGround(double y) {
+        onGround = true;
+        velocityY = 0;
+        this.y = y;
+    }
+
     public double getVelocityY() {
         return velocityY;
     }

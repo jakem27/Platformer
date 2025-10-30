@@ -77,12 +77,12 @@ public class GameWorld {
     private void update(double elapsedTime) {
         for(GameObject obj : objects) {
             if(obj == player) {
-                update(elapsedTime);
+                player.update(elapsedTime);
             } else if(obj instanceof Platform) {
                 // detect platform collision
                 if(obj.getBounds().intersects(player.getBounds())) {
                     if(player.getVelocityY() > 0) {
-
+                        player.setOnGround(obj.getBounds().getMinY());
                     }
                 }
             } else if(obj instanceof Obstacle) {
