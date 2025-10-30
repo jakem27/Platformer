@@ -2,16 +2,16 @@ package com.example.platformer.model;
 
 import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Platform extends GameObject {
 
-    private Line platform;
+    private Rectangle platform;
 
     public Platform(double x, double y, double width) {
-        super(new Line(0, 500, 350, 500), x, y, width, 8);
-        this.platform = (Line) view;
-        platform.setStroke(Color.LIGHTBLUE);
-        platform.setStrokeWidth(2);
+        super(new Rectangle(x, y, width, 4), x, y, width, 4);
+        this.platform = (Rectangle) view;
+        platform.setFill(Color.LIGHTBLUE);
     }
 
     @Override
