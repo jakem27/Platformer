@@ -36,9 +36,9 @@ public class Player extends GameObject{
         }
 
         if(direction.equals("right")) {
-            x += 300 * elapsedTime;
+            x =  Math.min(350 - player.getLayoutBounds().getWidth(), x + 300 * elapsedTime);
         } else if(direction.equals("left")) {
-            x -= 300 * elapsedTime;
+            x = Math.max(0, x - 300 * elapsedTime);
         }
 
         updateView();
