@@ -113,7 +113,7 @@ public class GameWorld {
         // update game objects
         for(GameObject obj : objects) {
             if(obj == player) {
-                player.update(elapsedTime, cameraY);
+                player.update(elapsedTime);
             } else if(obj instanceof Platform) {
                 // detect platform collision
                 if(obj.getBounds().intersects(player.getBounds())) {

@@ -17,7 +17,7 @@ public abstract class GameObject {
         this.y = y;
         this.width = width;
         this.height = height;
-        updateView(0);
+        updateView();
     }
 
     public Node getNode() {
@@ -39,7 +39,7 @@ public abstract class GameObject {
     protected void setWidth(double width) { this.width = width; }
     protected void setHeight(double height) { this.height = height; }
 
-    public abstract void update(double deltaTime, double cameraY);
+    public abstract void update(double deltaTime);
 
-    protected abstract void updateView(double cameraY);
+    protected abstract void updateView();
 }

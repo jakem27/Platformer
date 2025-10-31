@@ -24,12 +24,12 @@ public class Player extends GameObject{
     }
 
 
-    protected void updateView(double cameraY) {
+    protected void updateView() {
         view.setLayoutX(x);
         view.setLayoutY(y);
     }
 
-    public void update(double elapsedTime, double cameraY) {
+    public void update(double elapsedTime) {
         // gravity and jump
         if(!onGround) {
             velocityY = Math.min(300, velocityY + 800 * elapsedTime);
@@ -60,7 +60,7 @@ public class Player extends GameObject{
         }
 
 
-        updateView(cameraY);
+        updateView();
     }
 
     public void setOnGround(double y, Platform p) {
