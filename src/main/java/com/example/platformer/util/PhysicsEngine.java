@@ -19,7 +19,7 @@ public class PhysicsEngine {
 
     public void applyPhysics(Player player, double elapsedTime) {
         player.setVelocityY(player.getVelocityY() + 300 * elapsedTime);
-        player.update(elapsedTime);
+        player.update(elapsedTime, 0);
     }
 
     public void detectCollision(Platform platform, Player player) {

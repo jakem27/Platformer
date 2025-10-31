@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import java.util.*;
 
 public class GameWorld {
+    private final double SCREEN_WIDTH = 350;
+    private final double SCREEN_HEIGHT = 600;
     private Group root;
 
     private InputHandler inputHandler;
@@ -21,7 +23,8 @@ public class GameWorld {
 
     private List<GameObject> objects;
     private Player player;
-
+    private double cameraY;
+    private double highestYReached;
     private AnimationTimer gameLoop;
 
     public GameWorld(Group root, Scene scene) {
@@ -33,6 +36,8 @@ public class GameWorld {
         inputHandler.attachToScene(scene);
         platformGenerator = new PlatformGenerator();
 
+        cameraY = 0;
+
         init();
         startLoop();
     }
@@ -40,6 +45,7 @@ public class GameWorld {
     private void init() {
 
         player = new Player(165, 480);
+        highestYReached = player.getY();
         Platform platform = new Platform(0, 500, 350);
 
         objects.add(player);
@@ -81,6 +87,17 @@ public class GameWorld {
     }
 
     private void update(double elapsedTime) {
+        // move camera
+        if(player.getY() < highestYReached) {
+            highestYReached = player.getY();
+            double targetY = highestYReached - SCREEN_HEIGHT;
+            platformGenerator.generateUntil(targetY, root, objects);
+        }
+
+        cameraY = Math.min(cameraY, player.getY() - SCREEN_HEIGHT * 0.4);
+        root.setLayoutY(-cameraY);
+
+        // handle input
         if(inputHandler.isRightPressed()) {
             player.moveRight();
         } else if(inputHandler.isLeftPressed()) {
@@ -93,9 +110,10 @@ public class GameWorld {
             player.jump();
         }
 
+        // update game objects
         for(GameObject obj : objects) {
             if(obj == player) {
-                player.update(elapsedTime);
+                player.update(elapsedTime, cameraY);
             } else if(obj instanceof Platform) {
                 // detect platform collision
                 if(obj.getBounds().intersects(player.getBounds())) {

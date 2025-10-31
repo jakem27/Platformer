@@ -15,11 +15,12 @@ public class Platform extends GameObject {
     }
 
     @Override
-    protected void updateView() {
+    protected void updateView(double cameraY) {
         // unnecessary
     }
 
-    public void update(double elapsedTime) {
+    public void update(double elapsedTime, double cameraY) {
         // platforms don't move (yet)
+        //updateView();
     }
 }

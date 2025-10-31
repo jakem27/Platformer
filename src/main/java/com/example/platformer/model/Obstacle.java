@@ -16,12 +16,11 @@ public class Obstacle extends GameObject {
     }
 
     @Override
-    protected void updateView() {
-        view.setLayoutX(x);
-        view.setLayoutY(y);
+    protected void updateView(double cameraY) {
+        // fix later
     }
 
-    public void update(double elapsedTime) {
+    public void update(double elapsedTime, double cameraY) {
         //to be implemented
     }
 
