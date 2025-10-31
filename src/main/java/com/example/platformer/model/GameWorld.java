@@ -2,6 +2,7 @@ package com.example.platformer.model;
 
 import com.example.platformer.util.InputHandler;
 import com.example.platformer.util.PhysicsEngine;
+import com.example.platformer.util.PlatformGenerator;
 import com.example.platformer.util.SpriteLoader;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -13,6 +14,7 @@ public class GameWorld {
     private Group root;
 
     private InputHandler inputHandler;
+    private PlatformGenerator platformGenerator;
     //private PhysicsEngine physicsEngine;
     //private SpriteLoader spriteLoader;
 
@@ -29,6 +31,7 @@ public class GameWorld {
 
         inputHandler = new InputHandler();
         inputHandler.attachToScene(scene);
+        platformGenerator = new PlatformGenerator();
 
         init();
         startLoop();
@@ -44,6 +47,8 @@ public class GameWorld {
 
         root.getChildren().add(player.getNode());
         root.getChildren().add(platform.getNode());
+
+        platformGenerator.generateUntil(0, root, objects);
     }
 
     private void startLoop() {
@@ -95,7 +100,7 @@ public class GameWorld {
                 // detect platform collision
                 if(obj.getBounds().intersects(player.getBounds())) {
                     if(player.getVelocityY() > 0) {
-                        player.setOnGround(obj.getBounds().getMinY());
+                        player.setOnGround(obj.getBounds().getMinY(), (Platform) obj);
                     }
                 }
             } else if(obj instanceof Obstacle) {

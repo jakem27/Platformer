@@ -33,6 +33,11 @@ public abstract class GameObject {
     public void setY(double y) { this.y = y; }
 
     public double gety() { return y; }
+    public double getWidth() { return width; }
+    public double getHeight() {return height; }
+
+    protected void setWidth(double width) { this.width = width; }
+    protected void setHeight(double height) { this.height = height; }
 
     public abstract void update(double deltaTime);
 

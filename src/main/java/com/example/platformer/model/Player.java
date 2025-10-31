@@ -11,12 +11,16 @@ public class Player extends GameObject{
     private String direction = "";
     private boolean onGround = false;
     private boolean jump = false;
+    private Platform platform = null;
 
     public Player(double x, double y) {
         super(new Text("a"), x, y, 0, 0);
         this.player = (Text) view;
         player.setFont(new Font("Consolas", 36));
         player.setFill(Color.BLACK);
+
+        setWidth(player.getLayoutBounds().getWidth());
+        //setHeight(player.getLayoutBounds().getHeight());
     }
 
     @Override
@@ -26,28 +30,44 @@ public class Player extends GameObject{
     }
 
     public void update(double elapsedTime) {
+        // gravity and jump
         if(!onGround) {
-            velocityY += 900 * elapsedTime;
-            y = Math.min(900, y + velocityY * elapsedTime);
+            velocityY = Math.min(300, velocityY + 800 * elapsedTime);
+            y += velocityY * elapsedTime;
         } else if(jump) {
             velocityY = -300;
             onGround = false;
             jump = false;
+            platform = null;
         }
 
+        // horizontal movement
         if(direction.equals("right")) {
-            x =  Math.min(350 - player.getLayoutBounds().getWidth(), x + 300 * elapsedTime);
+            x =  Math.min(350 - width, x + 300 * elapsedTime);
         } else if(direction.equals("left")) {
             x = Math.max(0, x - 300 * elapsedTime);
         }
 
+        // falling off platforms
+        if(onGround && platform != null) {
+            double platLeft = platform.getX();
+            double platRight = platform.getX() + platform.getWidth();
+
+            if(this.x + this.width <= platLeft + 0.5 || this.x >= platRight - 0.5) {
+                onGround = false;
+                platform = null;
+            }
+        }
+
+
         updateView();
     }
 
-    public void setOnGround(double y) {
+    public void setOnGround(double y, Platform p) {
         onGround = true;
         velocityY = 0;
         this.y = y;
+        platform = p;
     }
 
     public void moveLeft() {
