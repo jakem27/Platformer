@@ -34,7 +34,7 @@ public class GameWorld {
 
         inputHandler = new InputHandler();
         inputHandler.attachToScene(scene);
-        platformGenerator = new PlatformGenerator();
+        platformGenerator = new PlatformGenerator(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         cameraY = 0;
 
@@ -44,9 +44,9 @@ public class GameWorld {
 
     private void init() {
 
-        player = new Player(165, 480);
+        player = new Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT * 0.8);
         highestYReached = player.getY();
-        Platform platform = new Platform(0, 500, 350);
+        Platform platform = new Platform(0, SCREEN_HEIGHT * 0.85, SCREEN_WIDTH);
 
         objects.add(player);
         objects.add(platform);
@@ -87,13 +87,18 @@ public class GameWorld {
     }
 
     private void update(double elapsedTime) {
-        // move camera
+        // generate platforms
         if(player.getY() < highestYReached) {
             highestYReached = player.getY();
             double targetY = highestYReached - SCREEN_HEIGHT;
             platformGenerator.generateUntil(targetY, root, objects);
         }
 
+        // Remove old platforms
+        double cleanupThreshold = player.getY() + SCREEN_HEIGHT * 1.5;
+        platformGenerator.cleanupPlatforms(cleanupThreshold, root, objects);
+
+        // move camera
         cameraY = Math.min(cameraY, player.getY() - SCREEN_HEIGHT * 0.4);
         root.setLayoutY(-cameraY);
 
