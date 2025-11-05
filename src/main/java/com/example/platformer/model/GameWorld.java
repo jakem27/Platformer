@@ -92,7 +92,7 @@ public class GameWorld {
     private void update(double elapsedTime) {
         // generate platforms
         if(player.getY() < highestYReached) {
-            addScore((int) (highestYReached - player.getY()));
+            //addScore((int) (highestYReached - player.getY()));
             highestYReached = player.getY();
             double targetY = highestYReached - SCREEN_HEIGHT;
             platformGenerator.generateUntil(targetY, root, objects);
@@ -128,6 +128,10 @@ public class GameWorld {
                 if(obj.getBounds().intersects(player.getBounds())) {
                     if(player.getVelocityY() > 0) {
                         player.setOnGround(obj.getBounds().getMinY(), (Platform) obj);
+                        if(!((Platform) obj).hasReached()) {
+                            addScore();
+                            ((Platform) obj).reached();
+                        }
                     }
                 }
             } else if(obj instanceof Obstacle) {
@@ -136,8 +140,8 @@ public class GameWorld {
         }
     }
 
-    public IntegerProperty scoreProperty() { return score; }
+    public IntegerProperty scoreProperty() {return score;}
     public int getScore() { return score.get(); }
-    public void addScore(int delta) {score.set(score.get() + delta); }
+    public void addScore() {score.set(score.get() + 1); }
 
 }
