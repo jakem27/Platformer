@@ -5,12 +5,15 @@ import com.example.platformer.util.PhysicsEngine;
 import com.example.platformer.util.PlatformGenerator;
 import com.example.platformer.util.SpriteLoader;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 
 import java.util.*;
 
 public class GameWorld {
+    private final IntegerProperty score = new SimpleIntegerProperty(0);
     private final double SCREEN_WIDTH = 350;
     private final double SCREEN_HEIGHT = 600;
     private Group root;
@@ -89,6 +92,7 @@ public class GameWorld {
     private void update(double elapsedTime) {
         // generate platforms
         if(player.getY() < highestYReached) {
+            addScore((int) (highestYReached - player.getY()));
             highestYReached = player.getY();
             double targetY = highestYReached - SCREEN_HEIGHT;
             platformGenerator.generateUntil(targetY, root, objects);
@@ -132,7 +136,8 @@ public class GameWorld {
         }
     }
 
-
-
+    public IntegerProperty scoreProperty() { return score; }
+    public int getScore() { return score.get(); }
+    public void addScore(int delta) {score.set(score.get() + delta); }
 
 }
