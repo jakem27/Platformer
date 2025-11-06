@@ -111,7 +111,7 @@ public class GameWorld {
         obstacleTimer += elapsedTime;
         if(obstacleTimer >= obstacleInterval) {
             obstacleTimer = 0;
-            obstacleGenerator.load(player.getY() - SCREEN_HEIGHT, root, objects);
+            obstacleGenerator.load(player.getY(), root, objects);
         }
 
         // move camera
@@ -154,6 +154,11 @@ public class GameWorld {
     }
 
     public IntegerProperty scoreProperty() {return score;}
-    public void addScore() {score.set(score.get() + 1); }
+    public void addScore() {
+        score.set(score.get() + 1);
+        if(score.get() % 10 == 0) {
+            obstacleInterval -= 0.5;
+        }
+    }
 
 }
