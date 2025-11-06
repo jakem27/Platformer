@@ -7,15 +7,14 @@ import javafx.scene.Group;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class PlatformGenerator {
     private final Random rand = new Random();
     private final double minWidth = 50;
     private final double maxWidth = 150;
 
-    private double SCREEN_WIDTH;
-    private double SCREEN_HEIGHT;
+    private final double SCREEN_WIDTH;
+    private final double SCREEN_HEIGHT;
     private double nextPlatformY;
 
     public PlatformGenerator(double width, double height) {
@@ -37,7 +36,7 @@ public class PlatformGenerator {
 
     private Platform createRandomPlatform(double y) {
         double width = minWidth + rand.nextDouble() * (maxWidth - minWidth);
-        double x = 10 + rand.nextDouble() * (350 - width);
+        double x = 10 + rand.nextDouble() * (SCREEN_WIDTH - width);
 
         return new Platform(x, y, width);
     }

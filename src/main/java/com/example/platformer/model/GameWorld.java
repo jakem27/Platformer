@@ -1,9 +1,8 @@
 package com.example.platformer.model;
 
 import com.example.platformer.util.InputHandler;
-import com.example.platformer.util.PhysicsEngine;
+import com.example.platformer.util.ObstacleGenerator;
 import com.example.platformer.util.PlatformGenerator;
-import com.example.platformer.util.SpriteLoader;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -20,6 +19,7 @@ public class GameWorld {
 
     private InputHandler inputHandler;
     private PlatformGenerator platformGenerator;
+    private ObstacleGenerator obstacleGenerator;
     //private PhysicsEngine physicsEngine;
     //private SpriteLoader spriteLoader;
 
@@ -28,6 +28,8 @@ public class GameWorld {
     private Player player;
     private double cameraY;
     private double highestYReached;
+    private double obstacleTimer;
+    private double obstacleInterval;
     private AnimationTimer gameLoop;
 
     public GameWorld(Group root, Scene scene) {
@@ -38,8 +40,11 @@ public class GameWorld {
         inputHandler = new InputHandler();
         inputHandler.attachToScene(scene);
         platformGenerator = new PlatformGenerator(SCREEN_WIDTH, SCREEN_HEIGHT);
+        obstacleGenerator = new ObstacleGenerator(SCREEN_WIDTH, SCREEN_HEIGHT);
 
         cameraY = 0;
+        obstacleTimer = 0;
+        obstacleInterval = 10;
 
         init();
         startLoop();
@@ -102,6 +107,13 @@ public class GameWorld {
         double cleanupThreshold = player.getY() + SCREEN_HEIGHT * 1.5;
         platformGenerator.cleanupPlatforms(cleanupThreshold, root, objects);
 
+        // generate obstacles
+        obstacleTimer += elapsedTime;
+        if(obstacleTimer >= obstacleInterval) {
+            obstacleTimer = 0;
+            obstacleGenerator.load(player.getY() - SCREEN_HEIGHT, root, objects);
+        }
+
         // move camera
         cameraY = Math.min(cameraY, player.getY() - SCREEN_HEIGHT * 0.4);
         root.setLayoutY(-cameraY);
@@ -135,13 +147,13 @@ public class GameWorld {
                     }
                 }
             } else if(obj instanceof Obstacle) {
+                obj.update(elapsedTime);
                 // move obstacle and detect collision with player
             }
         }
     }
 
     public IntegerProperty scoreProperty() {return score;}
-    public int getScore() { return score.get(); }
     public void addScore() {score.set(score.get() + 1); }
 
 }
